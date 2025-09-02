@@ -1,5 +1,6 @@
 import express from 'express';
 import verifyToken from "../middlewares/verifyToken.js";
+import protect from '../middlewares/authMiddleware.js';
 import {
   createCampaign,
   getAllCampaigns,
@@ -7,7 +8,8 @@ import {
   likeCampaign,
   getTopLikedCampaigns,
   getCampaignsByType,
-  myCampaign
+  myCampaign,
+  addComment
 } from '../controllers/campaignController.js';
 
 const router = express.Router();
@@ -20,5 +22,6 @@ router.get('/type/:type', getCampaignsByType);
 router.patch('/:id/like', likeCampaign);
 router.get('/mycampaign', verifyToken, myCampaign);        // ✅ Protect this!
 router.get('/:id', getCampaignById);
+router.post('/:id/comments', protect,addComment);
 
 export default router;
